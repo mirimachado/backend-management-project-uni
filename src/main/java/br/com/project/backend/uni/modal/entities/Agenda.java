@@ -1,5 +1,6 @@
 package br.com.project.backend.uni.modal.entities;
 
+import br.com.project.backend.uni.modal.dtos.requests.RequestAgendaDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -37,4 +38,12 @@ public class Agenda {
         this.description = description;
         this.type = type;
     }
+
+    public Agenda(RequestAgendaDTO data){
+        this.event = data.event();
+        this.dateEvent = data.date();
+        this.description = data.description();
+        this.type = data.type();
+    }
+
 }

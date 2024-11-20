@@ -28,21 +28,15 @@ public class AuthFilterToken extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = getToken(request);
-            System.out.println("Token extraído: " + jwt);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)){
 
                 String username = jwtUtils.getUsernameToken(jwt);
-                System.out.println("Username extraído do token: " + username);
                 UserDetails userDetails = userDetailService.loadUserByUsername(username);
-                System.out.println("Authorities do UserDetails: " + userDetails.getAuthorities());
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
-                System.out.println("Autenticação configurada no SecurityContextHolder: " + SecurityContextHolder.getContext().getAuthentication());
             }
-            else {
-                System.out.println("Token inválido ou inexistente.");
-            }
+
         }catch (Exception e){
             System.out.println("Ocorreu um erro ao processar Token. ");
 

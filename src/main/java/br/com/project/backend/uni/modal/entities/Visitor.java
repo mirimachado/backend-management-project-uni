@@ -1,5 +1,6 @@
 package br.com.project.backend.uni.modal.entities;
 
+import br.com.project.backend.uni.modal.dtos.requests.RequestVisitorDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,5 +30,10 @@ public class Visitor {
     public Visitor(String visitorName, LocalDate dateVisit) {
         this.visitorName = visitorName;
         this.dateVisit = dateVisit;
+    }
+
+    public Visitor(RequestVisitorDTO data){
+        this.visitorName = data.visitorName();
+        this.dateVisit = data.dateVisit();
     }
 }

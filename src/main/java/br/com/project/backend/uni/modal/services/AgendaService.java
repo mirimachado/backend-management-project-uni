@@ -16,7 +16,6 @@ import java.util.Optional;
 @Service
 public class AgendaService {
 
-
     @Autowired
     private AgendaRepository repository;
 
@@ -27,6 +26,7 @@ public class AgendaService {
 
     @Transactional
     public ResponseEntity createAgenda(RequestAgendaDTO data){
+
         Agenda agenda = new Agenda();
         agenda.setDateEvent(LocalDate.now());
         agenda.setType(data.type());

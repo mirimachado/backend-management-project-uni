@@ -1,5 +1,6 @@
 package br.com.project.backend.uni.modal.entities;
 
+import br.com.project.backend.uni.modal.dtos.requests.RequestGalleryDTO;
 import br.com.project.backend.uni.modal.emuns.GalleryType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -39,5 +40,13 @@ public class Gallery {
         this.photoId = photoId;
         this.datePhoto = date;
         this.type = type;
+    }
+
+    public Gallery(RequestGalleryDTO data){
+        this.description = data.description();
+        this.title = data.title();
+        this.photoId = data.photoId();
+        this.datePhoto = data.date();
+        this.type = data.type();
     }
 }

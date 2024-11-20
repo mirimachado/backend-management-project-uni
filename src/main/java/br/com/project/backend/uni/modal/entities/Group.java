@@ -1,5 +1,6 @@
 package br.com.project.backend.uni.modal.entities;
 
+import br.com.project.backend.uni.modal.dtos.requests.RequestGroupDTO;
 import br.com.project.backend.uni.modal.emuns.GroupType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -29,7 +30,7 @@ public class Group {
     private LocalDate createdOn;
 
     private String messages;
-    @NotEmpty
+    @NotNull
     @Enumerated(EnumType.STRING)
     private GroupType type;
 
@@ -38,5 +39,12 @@ public class Group {
         this.createdOn = createdOn;
         this.messages = messages;
         this.type = type;
+    }
+
+    public Group(RequestGroupDTO data){
+        this.participant = data.participant();
+        this.createdOn = data.createdOn();
+        this.messages = data.messages();
+        this.type = data.type();
     }
 }

@@ -3,10 +3,13 @@ package br.com.project.backend.uni.modal.controllers;
 import br.com.project.backend.uni.modal.dtos.requests.RequestUserDTO;
 import br.com.project.backend.uni.modal.dtos.requests.RequestUserPassword;
 import br.com.project.backend.uni.modal.services.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/users")
@@ -31,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/update_password")
-    public ResponseEntity updatePassword(@RequestBody @Valid RequestUserPassword data) {
+    public ResponseEntity updatePassword(@RequestBody @Valid RequestUserPassword data) throws MessagingException, UnsupportedEncodingException {
         return userService.updatePassword(data);
     }
 

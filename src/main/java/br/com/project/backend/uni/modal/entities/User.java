@@ -1,6 +1,7 @@
 package br.com.project.backend.uni.modal.entities;
 
 import br.com.project.backend.uni.modal.dtos.requests.RequestUserDTO;
+import br.com.project.backend.uni.modal.dtos.requests.RequestUserPassword;
 import br.com.project.backend.uni.modal.emuns.UserRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -59,5 +60,12 @@ public class User {
         this.password = requestUserDTO.password();
         this.email = requestUserDTO.email();
         this.birthday = requestUserDTO.birthday();
+        this.role = requestUserDTO.role();
+        this.login = requestUserDTO.login();
+        this.username = requestUserDTO.username();
+    }
+
+    public User(RequestUserPassword data) {
+        this.email = data.email();
     }
 }

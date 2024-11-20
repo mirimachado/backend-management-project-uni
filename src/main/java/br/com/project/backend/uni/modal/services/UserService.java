@@ -5,6 +5,8 @@ import br.com.project.backend.uni.modal.dtos.requests.RequestUserPassword;
 import br.com.project.backend.uni.modal.emuns.UserRole;
 import br.com.project.backend.uni.modal.entities.User;
 import br.com.project.backend.uni.modal.repositories.UserRepository;
+import br.com.project.backend.uni.modal.services.utility.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +30,7 @@ public class UserService {
     @Autowired
     private EmailService emailService;
 
+
     @Transactional
     public ResponseEntity createUser(RequestUserDTO data){
         Optional<User> optionalUserName = repository.findByUsername(data.username());
@@ -40,6 +44,9 @@ public class UserService {
         } else if (optionalUserLogin.isPresent()) {
             return ResponseEntity.badRequest().body("User with this login already exists.");
         } else {
+            if (!data.email().endsWith("@gmail.com")) {
+                return ResponseEntity.badRequest().body("The email must end with @gmail.com");
+            }
             User user = new User();
             user.setName(data.name());
             user.setUsername(data.username());
@@ -77,12 +84,15 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity updatePassword(RequestUserPassword data){
+    public ResponseEntity updatePassword(RequestUserPassword data) throws MessagingException, UnsupportedEncodingException {
         Optional<User> optionalUser = repository.findByEmail(data.email());
         if (optionalUser.isPresent()){
-            emailService.sendEmail("Recuperação de senha", data.email(), "E-mail de confirmação para a nova senha, link abaixo: ");
+            User user = optionalUser.get();
+            String email = user.getEmail();
+            emailService.sendMailWithInline(email);
+            return ResponseEntity.ok("Confirmação enviada para o e-mail do destinatário. ");
         }
-        return ResponseEntity.ok("Confirmação enviada para o e-mail do destinatário. ");
+        return ResponseEntity.notFound().build();
     }
 
     @Transactional

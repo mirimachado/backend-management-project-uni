@@ -1,6 +1,7 @@
 package br.com.project.backend.uni.modal.entities;
 
 
+import br.com.project.backend.uni.modal.dtos.requests.RequestHomeContentDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -30,4 +31,11 @@ public class HomeContent {
         this.photoId = photoId;
         this.content = content;
     }
+
+    public HomeContent(RequestHomeContentDTO data){
+        this.title = data.title();
+        this.photoId = data.photoId();
+        this.content = data.content();
+    }
+
 }

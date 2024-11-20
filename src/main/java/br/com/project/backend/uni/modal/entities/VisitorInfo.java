@@ -1,5 +1,6 @@
 package br.com.project.backend.uni.modal.entities;
 
+import br.com.project.backend.uni.modal.dtos.requests.RequestVisitorInfoDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -27,5 +28,11 @@ public class VisitorInfo {
         this.aboutUs = aboutUs;
         this.leadership = leadership;
         this.socialMedia = socialMedia;
+    }
+
+    public VisitorInfo(RequestVisitorInfoDTO data) {
+        this.aboutUs = data.aboutUs();
+        this.leadership = data.leadership();
+        this.socialMedia = data.socialMedia();
     }
 }
